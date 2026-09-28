@@ -1,28 +1,40 @@
-# PressLight - Reinforcement Learning for Traffic Signal Control
+# PressLight - Modernized Reinforcement Learning for Traffic Signal Control
 
-This repository contains the implementation of **PressLight**, a Deep Reinforcement Learning (RL) agent that optimizes traffic signal control to minimize average travel time. It uses Max Pressure theory combined with a Deep Q-Network (DQN) and is simulated using the [CityFlow](https://cityflow-project.github.io/) traffic simulator.
+This repository contains a modernized implementation of **PressLight**, a Deep Reinforcement Learning (RL) agent that optimizes traffic signal control to minimize average travel time. Originally created over 7 years ago, this project has been fully upgraded and revived to work flawlessly on modern systems (Python 3.8+) while maintaining the core Max Pressure theory and Deep Q-Network (DQN) architecture. 
 
-## 🚦 Features
-- **Deep Q-Network (DQN):** Learns optimal traffic light phases based on the "Max Pressure" state of the intersection.
-- **CityFlow Integration:** Fast, multi-threaded traffic simulation.
-- **Automated Metrics:** Scripts to automatically parse simulation logs and calculate the Average Travel Time per round.
-- **Visualization:** Jupyter Notebooks for plotting the RL learning convergence and tools to generate CityFlow UI replays.
+Simulations are powered by the open-source [CityFlow](https://cityflow-project.github.io/) traffic simulator.
+
+## ✨ Modernization Contributions
+The original 7-year-old PressLight codebase was heavily outdated and suffered from broken dependencies. Our key contributions in this repository include:
+- **Python 3.8+ Upgrade:** Upgraded syntax, packages, and environment configurations.
+- **Keras 3 Compatibility:** Refactored the Deep Q-Network code to safely handle tensor shapes, prevent OOM (Out-of-Memory) crashes on modern GPUs, and safely fallback to CPU for ultra-fast training.
+- **Multiprocessing Fixes:** Fixed critical fork/spawn pipeline crashes in CityFlow's C++ engine, allowing stable background logging without segmentation faults.
+- **Automated Metrics & Visualizations:** Added brand-new scripts to automate the generation of travel time metrics, CityFlow replays, and Jupyter Notebook learning curves.
 
 ---
 
-## 🛠️ Requirements & Installation
+## 🛠️ Requirements & Installation (WSL / Ubuntu)
 
-1. **Environment:** This codebase is designed to run in a Linux environment (or WSL on Windows).
-2. **Python:** Python 3.8 is recommended.
-3. **Dependencies:**
-   ```bash
-   pip install tensorflow pandas numpy matplotlib seaborn jupyter
-   ```
-4. **CityFlow Simulator:**
-   You must install the CityFlow simulator from source or pip.
-   ```bash
-   pip install cityflow
-   ```
+Because CityFlow compiles C++ components, we strongly recommend running this natively on Linux or via **Windows Subsystem for Linux (WSL2: Ubuntu)**.
+
+**1. Install System Dependencies (WSL/Ubuntu):**
+```bash
+sudo apt update
+sudo apt install build-essential cmake
+```
+
+**2. Setup Python Environment:**
+We recommend using Conda:
+```bash
+conda create -n cityflow_env python=3.8
+conda activate cityflow_env
+pip install tensorflow pandas numpy matplotlib seaborn jupyter
+```
+
+**3. Install CityFlow Simulator:**
+```bash
+pip install cityflow
+```
 
 ---
 
@@ -67,7 +79,7 @@ Run the replay generation script. This script automatically loads your **best** 
 python generate_replay.py
 ```
 This will output two files in your `records/test/...` folder:
-- `roadnet_1_6.json` (Note: CityFlow will actually use `replay_roadnet.json` for drawing)
+- `roadnet_1_6.json`
 - `replay.txt`
 
 **2. Watch the Replay**
@@ -86,7 +98,6 @@ If you are pushing this code to GitHub, ensure that `.gitignore` is set up to bl
 ```text
 records/
 model/
-data/
 errors/
 __pycache__/
 *.h5
